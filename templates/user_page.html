@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hell Pass Password Manager</title>
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .links {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .links a {
+            display: inline-block;
+            margin: 0 10px;
+            text-decoration: none;
+            color: #4285f4;
+            font-size: 18px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 30px;
+            color: #4285f4;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+
+        th {
+            font-weight: bold;
+            background-color: #f2f2f2;
+        }
+
+        .copyable {
+            cursor: pointer;
+            position: relative;
+        }
+
+        .delete-button {
+            padding: 5px 10px;
+            background-color: #4285f4;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .alert {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #e4e8ee;
+            color: #050505;
+            font-size: 10px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .copyable:hover .alert {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+{% csrf_token %}
+<div class="links">
+    {% if user.is_authenticated %}
+        <a href="/save/{{ user_id }}/">Add service</a>
+        <a href="/change_password/{{ user_id }}/">Change password</a>
+        <a href="/logout/">Sign Out</a>
+    {% endif %}
+</div>
+<div class="container">
+    <h1>My services</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Service Name</th>
+                <th>Service URL</th>
+                <th>Login</th>
+                <th>Password</th>
+                <th>OTP</th>
+                <th>Time remaining</th>
+                <th>Notes</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for service in services %}
+            <tr>
+                <td class="copyable">
+                    <span onclick="copyToClipboard(this)">{{ service.service_name }}</span>
+                    <div class="alert">Click to copy</div>
+                </td>
+                <td class="copyable">
+                    <span onclick="copyToClipboard(this)">{{ service.service_url }}</span>
+                    <div class="alert">Click to copy</div>
+                </td>
+                <td class="copyable">
+                    <span onclick="copyToClipboard(this)">{{ service.login }}</span>
+                    <div class="alert">Click to copy</div>
+                </td>
+                <td class="copyable">
+                    <span onclick="copyToClipboard(this)">{{ service.password }}</span>
+                    <div class="alert">Click to copy</div>
+                </td>
+                <td class="copyable">
+                    <span onclick="copyToClipboard(this)">{{ service.otp }}</span>
+                    <div class="alert">Click to copy</div>
+                </td>
+                <td id="time-{{ service.id }}">{{ service.time_remaining }}</td>
+                <td class="copyable">
+                    <span onclick="copyToClipboard(this)">{{ service.notes }}</span>
+                    <div class="alert">Click to copy</div>
+                </td>
+                <td>
+                    <button class="delete-button" onclick="deleteItem('{{ service.id }}')">Delete</button>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<script>
+    function deleteItem(item_id) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/delete_item/" + item_id + "/", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.setRequestHeader("X-CSRFToken", getCSRFToken());
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                refreshPage();
+            }
+        };
+        xhr.send();
+    }
+
+    function refreshPage() {
+        location.reload();
+    }
+
+    function getCSRFToken() {
+        var cookies = document.cookie.split(";");
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            if (cookie.startsWith("csrftoken=")) {
+                return cookie.substring("csrftoken=".length, cookie.length);
+            }
+        }
+        return "";
+    }
+
+    function copyToClipboard(element) {
+        var text = element.textContent;
+        navigator.clipboard.writeText(text);
+        showAlert(element.nextElementSibling);
+    }
+
+    function showAlert(alertElement) {
+        alertElement.style.opacity = 1;
+        setTimeout(function () {
+            alertElement.style.opacity = 0;
+        }, 1500);
+    }
+
+    window.onload = function () {
+        {% for service in services %}
+            var timeRemaining{{ service.id }} = {{ service.time_remaining }};
+            var countdown{{ service.id }} = setInterval(function () {
+                timeRemaining{{ service.id }}--;
+                document.getElementById('time-{{ service.id }}').textContent = timeRemaining{{ service.id }};
+                if (timeRemaining{{ service.id }} <= 0) {
+                    clearInterval(countdown{{ service.id }});
+                    refreshPage();
+                }
+            }, 1000);
+        {% endfor %}
+    }
+</script>
+</body>
+</html>

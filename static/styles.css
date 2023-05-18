@@ -1,0 +1,156 @@
+/* styles.css */
+
+body {
+    font-family: Arial, sans-serif;
+    background-image: url("https://connect.geant.org/wp-content/webp-express/webp-images/uploads/2020/10/top-view-hand-with-password-it-copy-space.jpg.webp");
+    background-size: cover;
+    opacity: 80%;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    flex-direction: column;
+    padding: 20px;
+    box-sizing: border-box;
+    margin: 0;
+    position: relative;
+}
+
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    color: #4a4a4d;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+    border: 1px solid #d5d5d5;
+}
+
+th, td {
+    border-bottom: 1px solid #d5d5d5;
+    border-right: 1px solid #d5d5d5;
+    padding: 10px 15px;
+}
+
+th:first-child, td:first-child {
+    border-left: 1px solid #d5d5d5;
+}
+
+th {
+    background: #f7f7f7;
+    border-top: 2px solid #d5d5d5;
+    text-align: left;
+}
+.links {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+a {
+    color: #C58C9A;
+    margin-left: 10px;
+}
+
+h1 {
+    color: #C58C9A;
+}
+.messages {
+            position: fixed;
+            top: 25%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            color: #C58C9A;
+            background-color: transparent;
+            padding: 10px;
+            list-style-type: none;
+            margin: 0;
+        }
+
+.messages li {
+            background-color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+.button {
+    background-color: #C58C9A;
+    color: #F8F8F8;
+    border: none;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+}
+div {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+        form {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        form input[type="username"],
+        form input[type="email"],
+        form input[type="password"],
+        form input[type="submit"] {
+            margin: 5px;
+        }
+
+        .password-container {
+            position: relative;
+        }
+
+        .eye-button {
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .eye-icon {
+            color: #888;
+        }
+form {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+form input[type="text"],
+form input[type="email"],
+form .password-container,
+form input[type="checkbox"] + label,
+form input[type="submit"] {
+    margin: 5px;
+    flex-grow: 1;
+}
+
+
+.password-container {
+    position: relative;
+    width: 100%; // Добавьте эту строку
+}

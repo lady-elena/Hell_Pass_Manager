@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 15px;
+        }
+
+        .form-group input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #4285f4;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Edit Data</h2>
+    <form method="post">
+        {% csrf_token %}
+        <td>
+            <input type="text" value="{{ service.service_name }}" id="service_name_{{ service.id }}">
+        </td>
+        <td>
+            <input type="text" value="{{ service.service_url }}" id="service_url_{{ service.id }}">
+        </td>
+        <td>
+            <input type="text" value="{{ service.login }}" id="login_{{ service.id }}">
+        </td>
+        <td>
+            <input type="text" value="{{ service.password }}" id="password_{{ service.id }}">
+        </td>
+        <td>
+            <input type="text" value="{{ service.otp }}" id="otp_{{ service.id }}">
+        </td>
+        <td id="time-{{ service.id }}">{{ service.time_remaining }}</td>
+        <td>
+            <input type="text" value="{{ service.notes }}" id="notes_{{ service.id }}">
+        </td>
+        <td>
+            <button class="save-button" onclick="saveChanges('{{ service.id }}')">Save</button>
+        </td>
+        <script>
+            function saveChanges(item_id) {
+    var service_name = document.getElementById('service_name_' + item_id).value;
+    var service_url = document.getElementById('service_url_' + item_id).value;
+    var login = document.getElementById('login_' + item_id).value;
+    var password = document.getElementById('password_' + item_id).value;
+    var otp = document.getElementById('otp_' + item_id).value;
+    var notes = document.getElementById('notes_' + item_id).value;
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/save_changes/" + item_id + "/", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.setRequestHeader("X-CSRFToken", getCSRFToken());
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            refreshPage();
+        }
+    };
+
+    var formData = new FormData();
+    formData.append('service_name', service_name);
+    formData.append('service_url', service_url);
+    formData.append('login', login);
+    formData.append('password', password);
+    formData.append('otp', otp);
+    formData.append('notes', notes);
+
+    xhr.send(formData);
+}
+</scrypt>
+</body>
+</html>

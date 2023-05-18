@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registration</title>
+    <style>
+        body {
+            font-family: Roboto, Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .logo {
+            color: #4285f4;
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 16px;
+        }
+
+        .description {
+            color: #5f6368;
+            font-size: 18px;
+            margin-bottom: 32px;
+        }
+
+        .form {
+            display: flex;
+            flex-direction: column;
+            width: 300px;
+            margin-bottom: 24px;
+        }
+
+        .form input[type="text"],
+        .form input[type="email"],
+        .form input[type="password"] {
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 12px;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .checkbox-label input[type="checkbox"] {
+            margin-right: 6px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #4285f4;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: #3367d6;
+        }
+
+        .error-message {
+            background-color: rgba(225, 200, 200, 0.3);
+            color: #e74141;
+            padding: 8px;
+            margin-bottom: 8px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .submit-button {
+            text-align: center;
+        }
+    </style>
+    <script>
+        function togglePasswordVisibility() {
+            var passwordInput = document.getElementById('id_password');
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+            } else {
+                passwordInput.type = "password";
+            }
+        }
+
+        function generateRandomPassword() {
+            var length = 12,
+                charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()",
+                retVal = "";
+            for (var i = 0, n = charset.length; i < length; ++i) {
+                retVal += charset.charAt(Math.floor(Math.random() * n));
+            }
+            document.getElementById('id_password').value = retVal;
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="logo">Hell Pass</div>
+    <div class="description">Password Manager</div>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li class="error-message">{{ message|safe }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <form class="form" method="post">
+        {% csrf_token %}
+        <input type="text" name="username" placeholder="Username" id="id_username">
+        {% if messages.username %}
+            <p class="error-message">{{ messages.username|safe }}</p>
+        {% endif %}
+        <input type="email" name="email" placeholder="Email" id="id_email">
+        {% if messages.email %}
+            <p class="error-message">{{ messages.email|safe }}</p>
+        {% endif %}
+        <input type="password" name="password" placeholder="Password" id="id_password">
+        <label class="checkbox-label"><input type="checkbox" onclick="generateRandomPassword()">Generate password</label>
+        <label class="checkbox-label"><input type="checkbox" onclick="togglePasswordVisibility()">Show Password</label>
+        {% if messages.password %}
+            <p class="error-message">{{ messages.password|safe }}</p>
+        {% endif %}
+        <div class="submit-button">
+            <input type="submit" class="button" value="Sign Up">
+        </div>
+    </form>
+    <div class="description">Already have an account? <a href="/login/">Sign In</a></div>
+</div>
+</body>
+</html>

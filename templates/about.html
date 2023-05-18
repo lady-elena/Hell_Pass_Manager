@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hell Pass Password Manager</title>
+    <style>
+        body {
+            font-family: Roboto, Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .logo {
+            color: #4285f4;
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 16px;
+        }
+
+        .description {
+            color: #5f6368;
+            font-size: 18px;
+            margin-bottom: 32px;
+        }
+
+        .form {
+            display: flex;
+            flex-direction: column;
+            width: 300px;
+            margin-bottom: 24px;
+        }
+
+        .form input[type="text"],
+        .form input[type="password"] {
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 12px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #4285f4;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: #3367d6;
+        }
+
+        .about-link {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            color: #4285f4;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .about-section {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .about-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4285f4;
+            margin-bottom: 16px;
+        }
+
+        .about-description {
+            color: #5f6368;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="about-section">
+        <div class="about-title">About Hell Pass Password Manager</div>
+        <div class="about-description">
+            <h3>What can you do with Hell Pass?</h3>
+            <ul>
+                <li>Securely store and manage your passwords</li>
+                <li>Organize information about websites and online accounts</li>
+                <li>Add notes to remember important details</li>
+                <li>Store and manage two-factor authentication keys</li>
+                <li>Copy necessary fields for convenient use</li>
+            </ul>
+
+            <h3>Advantages of Hell Pass Password Manager</h3>
+            <ul>
+                <li>Secure password hashing using the SHA256 algorithm with PBKDF2</li>
+                <li>Data protection through AES256 encryption</li>
+                <li>Dynamic OTP generation for login purposes</li>
+                <li>Privacy and integrity of your information</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
